@@ -3,17 +3,22 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "@apollo/react-hooks";
 
-const client = new ApolloClient({
-  uri: "http://localhost:3000/graphql",
+import config from "./config";
+
+import { GraphQLClient, ClientContext } from "graphql-hooks";
+
+// import memCache from 'graphql-hooks-memcache';
+
+const client = new GraphQLClient({
+  url: `${config.serverUrl}/graphql`
+  // cache: memCache()
 });
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
+  <ClientContext.Provider value={client}>
     <App />
-  </ApolloProvider>,
+  </ClientContext.Provider>,
   document.getElementById("root")
 );
 

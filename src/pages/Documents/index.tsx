@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from 'graphql-hooks'
 
 import { GET_SKELETON_DOCUMENT_DATA, GET_DOCSCHEMA } from "../../data/queries";
 import { IDocument, IDocumentState } from "../../data/types";
@@ -8,16 +8,12 @@ import DocumentList from "../../components/DocumentList";
 
 const DocumentsPage = () => {
   let { schemaId } = useParams<{ schemaId: string }>();
-
   const { data, loading, error } = useQuery<IDocumentState>(
     GET_SKELETON_DOCUMENT_DATA
   );
   const { data: schemaData } = useQuery(GET_DOCSCHEMA);
-
   const [searchFilter, setSearchFilter] = useState('')
 
-  
-  
   if (loading) {
     return <>Loading</>;
   }
@@ -52,7 +48,6 @@ const DocumentsPage = () => {
           <ul>
             <DocumentList
               query={{
-                type: [currentSchema.id],
                 limit: 0,
                 find: searchFilter
               }}

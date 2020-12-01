@@ -1,6 +1,4 @@
-import { gql } from "apollo-boost";
-
-export const GET_DOCSCHEMA = gql`
+export const GET_DOCSCHEMA = `
   query getDocSchema{
     docschema {
       id
@@ -10,7 +8,7 @@ export const GET_DOCSCHEMA = gql`
   }
 `;
 
-export const GET_SKELETON_DOCUMENT_DATA = gql`
+export const GET_SKELETON_DOCUMENT_DATA = `
   query getSkeletonDocumentData(
     $filter: [Int] = []
     $find: String = ""
@@ -47,7 +45,7 @@ export const GET_SKELETON_DOCUMENT_DATA = gql`
   }
 `;
 
-export const GET_DOCUMENT_ITEMS_DATA = gql`
+export const GET_DOCUMENT_ITEMS_DATA = `
   query getDocumentItems(
     $filter: [Int] = []
     $find: String = ""
@@ -86,7 +84,7 @@ export const GET_DOCUMENT_ITEMS_DATA = gql`
   }
 `;
 
-export const GET_DOCUMENT = gql`
+export const GET_DOCUMENT = `
   query getDocument($only: [Int]) {
     document(only: $only) {
       id
@@ -101,7 +99,7 @@ export const GET_DOCUMENT = gql`
   }
 `;
 
-export const SAVE_DOCUMENT = gql`
+export const SAVE_DOCUMENT = `
   mutation save($document: DocumentInput) {
     saveDocument(document: $document) {
       id

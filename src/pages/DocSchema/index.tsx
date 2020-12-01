@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 // import { Link, useParams } from "react-router-dom";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from 'graphql-hooks'
 
 import { GET_DOCSCHEMA } from "../../data/queries";
 import { IDocSchema } from "../../data/types";

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from 'graphql-hooks'
+
 
 import { GET_DOCUMENT_ITEMS_DATA } from "../../data//queries";
 import {

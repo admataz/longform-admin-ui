@@ -7,9 +7,11 @@ import TextField from "../Form/TextField";
 import SelectDocSchema from "../Form/SelectDocSchema";
 import validationSchema from "./validation";
 import { IDocument } from "../../data/types";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useQuery, useMutation } from 'graphql-hooks'
+
 import {
   GET_SKELETON_DOCUMENT_DATA,
+  GET_DOCUMENT_ITEMS_DATA,
   GET_DOCUMENT,
   SAVE_DOCUMENT,
 } from "../../data/queries";
@@ -53,22 +55,9 @@ const DocumentItem = () => {
   const [
     saveDocument,
     { data: savedData, error: saveError, loading: saveLoading },
-  ] = useMutation(SAVE_DOCUMENT, {
-    update: (store, { data: { saveDocument } }) => {
-      const data: any = store.readQuery({ query: GET_SKELETON_DOCUMENT_DATA });
-      data.document.push(saveDocument[0]);
-      store.writeQuery({ query: GET_SKELETON_DOCUMENT_DATA, data });
-    },
-  });
-
+  ] = useMutation(SAVE_DOCUMENT);
+  
   useEffect(() => {
-    if (savedData) {
-      setCurrentDocument(savedData.saveDocument[0]);
-    }
-  }, [savedData, setCurrentDocument]);
-
-  useEffect(() => {
-    console.log(loadedData)
     if (loadedData) {
       setCurrentDocument(loadedData.document[0]);
     }
@@ -84,7 +73,6 @@ const DocumentItem = () => {
     document.docschema = +schemaId;
   }
 
-
   const handleSubmit = async (
     docData: IDocument,
     { setSubmitting }: FormikHelpers<IDocument>
@@ -95,7 +83,7 @@ const DocumentItem = () => {
     if (document.docschema) {
       document.docschema = +document.docschema;
     }
-    await saveDocument({ variables: { document } });
+    const saved = await saveDocument({ variables: { document } });
   };
 
   if (loading && !document) return <p>Loading...</p>;
@@ -104,7 +92,7 @@ const DocumentItem = () => {
 
   return (
     <>
-      {document && (
+      {(document || documentId === 0) && (
         <Formik
           onSubmit={handleSubmit}
           initialValues={document || {}}
@@ -129,10 +117,13 @@ const DocumentItem = () => {
                 <TextField multiline name="body" label="Body" />
               </StyledInputRow>
 
-              <StyledInputRow>
-                {document.related &&
-                  document.related.map((r, i) => <p key={`k-${i}`}>{r}</p>)}
-              </StyledInputRow>
+              {document?.related && (
+                <StyledInputRow>
+                  {document.related.map((r, i) => (
+                    <p key={`k-${i}`}>{r}</p>
+                  ))}
+                </StyledInputRow>
+              )}
 
               <StyledInputRow>
                 <button disabled={isSubmitting} type="submit">

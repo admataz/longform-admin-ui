@@ -1,6 +1,7 @@
 import React from "react";
 import { useField } from "formik";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from 'graphql-hooks'
+
 
 import { GET_DOCSCHEMA } from "../../data//queries";
 import { IDocSchema } from "../../data/types";
